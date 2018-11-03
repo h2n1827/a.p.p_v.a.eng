@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/txtLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/string_thongtin"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/iconapps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/rateapps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iconapps"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/rateapps" />
+    
+    <TextView
+        android:id="@+id/pleaserate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rateapps"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/pleaserateapps"
+        android:textSize="16dp" />
+  
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/greenbutton"
+        android:text="Share Link"
+        android:textStyle="bold|italic" />
+
+</RelativeLayout>
