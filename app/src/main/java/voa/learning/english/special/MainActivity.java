@@ -32,6 +32,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,8 +43,6 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -54,7 +53,6 @@ public class MainActivity extends FragmentActivity implements
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	SearchView mSearchView;
-	static ListYoutubeFragment youtube;
 	static ArrayList<CategoryAdapter> listCategory;
 
 	private static FragmentManager fragmentManager;
@@ -66,7 +64,6 @@ public class MainActivity extends FragmentActivity implements
 	static int oldposAds = 0;
 	static int curposAds = 0;
 
-	private static Tracker mTracker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +71,7 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 
 		// Obtain the shared Tracker instance.
-		AnalyticsApplication application = (AnalyticsApplication) getApplication();
-		mTracker = application.getDefaultTracker();
-		mTracker.setScreenName("Home Screen");
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
 		// Create the interstitial.
 		// interstitial = new InterstitialAd(this);
 		// interstitial.setAdUnitId("ca-app-pub-3221103252703564/4721817734");
@@ -133,6 +127,8 @@ public class MainActivity extends FragmentActivity implements
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+		Log.e("Load URL", "onAdLoaded");
+
 		new DownloadCategory()
 				.execute(new String[] { DeveloperKey.ETAVIRPLRU });
 		LoadingFragment initFragment = new LoadingFragment();
@@ -155,30 +151,13 @@ public class MainActivity extends FragmentActivity implements
 	// }
 	// }
 
-	public static void setActiveFragment(int pos) {
-		youtube = new ListYoutubeFragment();
-		Bundle args = new Bundle();
-		args.putSerializable(ListYoutubeFragment.TAGGETCATEGORY,
-				listCategory.get(pos));
-		youtube.setArguments(args);
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame_navigation, youtube).commit();
-		fragmentManager.beginTransaction().commitAllowingStateLoss();
-	}
+
 
 	public static void setAboutUsFragment() {
 		AboutUsFragment aboutfragment = new AboutUsFragment();
 
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame_navigation, aboutfragment).commit();
-	}
-
-	public void setSaveOfflineFragment() {
-		ListSaveOfflineFragment saveofflinefragment = new ListSaveOfflineFragment();
-
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content_frame_navigation, saveofflinefragment)
-				.commit();
 	}
 
 	public void setHomeFragment() {
@@ -262,10 +241,9 @@ public class MainActivity extends FragmentActivity implements
 			setAboutUsFragment();
 			checkHome = false;
 		} else if (titleGet.equalsIgnoreCase("Save Offline")) {
-			setSaveOfflineFragment();
+			//setSaveOfflineFragment();
 			checkHome = false;
-		} else
-			setActiveFragment(position);
+		}
 
 		mDrawerTitle = titleGet;
 
@@ -356,7 +334,7 @@ public class MainActivity extends FragmentActivity implements
 		mDrawerList.setAdapter(drawerAdapter);
 		if (!isOnline()) {
 			if (listCategory.size() != 0) {
-				setSaveOfflineFragment();
+				//setSaveOfflineFragment();`
 				checkHome = false;
 				displayAlert();
 			}
@@ -403,12 +381,7 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onQueryTextChange(String arg0) {
-		// TODO Auto-generated method stub
-		if (youtube != null) {
-			if (checkHome) {
-				youtube.onQueryTextChange(arg0);
-			}
-		}
+
 		return false;
 	}
 
